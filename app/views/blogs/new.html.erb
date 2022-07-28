@@ -1,0 +1,24 @@
+<h1>新增文章</h1>
+
+
+<%# form for 會根據屬性的樣子去找到對應的路徑與方法 %>
+
+<%= form_for @article do |form| %>
+標題:
+<%# <input type="text" name="title"> %>
+<%= form.text_field :title %>
+
+內容:
+<%# <textarea name="content" id="" cols="30" rows="10"></textarea> %>
+<%= form.text_area :content %>
+<input type="submit" value="新增">
+<% end %>
+
+<%# form_tag，用在沒有model或是table的, 通常其他用form_for %>
+<%#= form_tag "/blogs" do %>
+
+
+<%# <form action="/blogs" method="post">
+  <input type="text" name="authenticity_token">
+  <input type="submit" value="新增">
+</form> %>
