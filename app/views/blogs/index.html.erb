@@ -3,5 +3,19 @@
 <%= link_to "新增文章", new_blog_path %>
 
 
+
+<% @articles.each do |article| %>
+<%# 輸出才要加 "=" %>
+<ul>
+  <li>
+     <%#= link_to article.title, article_path(article) %>
+     <%= link_to article.title, article %>
+     <%= link_to "編輯", edit_article_path(article)%>
+     <%= link_to "刪除", article, method: "delete", data: {confirm: "是否刪除?"} %> 
+     <%# 上面會產生nofollow的效果，可以防止爬蟲，也可以method包在data內就不會有nofollow %>
+  </li>
+</ul>
+
+<% end %>
 <%#  製作忘記密碼之類的會需要用到url連回來 %>
 <%#= link_to "新增文章", new_blog_url %>

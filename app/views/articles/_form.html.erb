@@ -1,0 +1,10 @@
+<%# _form 局部渲染 partial view %>
+<%# 拿掉@article 改成 article，不要讓partial view的檔案裏面依賴實體變數 %>
+
+<%= form_for article do |form| %>
+標題:
+<%= form.text_field :title %>
+內容:
+<%= form.text_area :content %>
+<%= form.submit "更新" %>
+<% end %>
