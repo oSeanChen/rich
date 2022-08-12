@@ -1,23 +1,41 @@
 class BlogsController < ApplicationController
-  def index
-    @articles = Article.all
+  before_action :require_login?, only:[:show]
+ 
+  def show
+    @blog = Blog.find_by!(handler: params[:handler])
+
+  #   #誰來我家
+    if @blog != current_user.blog
+      if @blog.visitors.include?(current_user)
+        @blog.visitors.destroy(current_user)
+      end
+
+      @blog.visitors << current_user
+    end
   end
 
   def new
-    @article = Article.new
+    @blog = Blog.new
   end
 
   def create
-    # 寫入資料庫
-    # redirect_to "/blogs"
-
-    render html: params[:content]
-    # render ({html: params[:content]}) #原本的樣子
-    # render html: params["content"]
-    # params是類hash的東西，符號拿法是ruby特有，其他程式語言習慣用""拿
-    # symbol 是有名字的物件，如同數字
-    
-    # render html: "已成功新增網誌"
-    
+    @blog = current_user.build_blog(blog_params)
+    if @blog.save
+      redirect_to "/@#{@blog.handler}", notice: "已成功建立 Blog"
+    else
+      render :new
+    end
   end
+
+  def edit
+  end
+
+  def destroy
+  end
+
+  private
+  def blog_params
+    params.require(:blog).permit(:handler, :title, :description)
+  end
+
 end

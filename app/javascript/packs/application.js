@@ -11,3 +11,12 @@ import "channels"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+// 全站都會執行
+// document.addEventListener("DOMContentLoaded", () => {
+//   const likeBtn = document.querySelector("#likeBtn")
+//   likeBtn.addEventListener("click", () => {
+//     console.log(123);
+//   })
+// })
+import "controllers"

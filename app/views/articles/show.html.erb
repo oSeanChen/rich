@@ -1,5 +1,46 @@
 <h1><%= @article.title %></h1>
 
-<p> 
-  <%= @article.content %>
+
+<section data-controller="like"
+         data-article-id="<%= @article.id %>"
+         data-liked="<%= current_user&.liked?(@article) %>">
+  <button data-like-target="likeButton"
+          data-action="click->like#like_article">☆</button>
+</section>
+<%# <button>★</button> %>
+
+<p>
+  <%# 如果form for 的方法會抓到model裡面存好的pincode，就會顯示出密碼，應改用 form tag的方式就不會 %>
+  <% if is_locked?(@article) %>
+    <%# & 表示前面有的話再檢查後面的條件 %>
+    <%= form_with url: unlock_article_path(@article), method: "patch" do |f|%>  
+      輸入密碼: <%= f.text_field :pincode %>
+      <%= f.submit "送出" %>
+    <% end %>
+  <% else %>
+    <%= @article.content %>
+  <% end %>
 </p>   
+
+<section>
+  <%#= form_with model: @comment, url: article_comments_path(@article) do |f| %>
+  <%# local: false， form with原本打過去類型是html, 現在打過去在回傳的類型會變成js, 會找到js.erb檔案, 就可以做到前後端分離。 %>
+  <%= form_with model: [@article, @comment], local: false do |f| %>
+  <%= f.label :content, "留言區" %>
+  <%= f.text_area :content %>
+  <%= f.submit "送出" %>
+  <% end %>
+
+
+<ul class="comment_list">
+  <%# @comments.each do |comment| %>
+    <%# 不要在迴圈裏面render 效能差 %>
+    <%#= render "comments/comment", comment: comment %>
+    <%#= render partial: "comments/comment", collection: @comments, as: :comment %>
+    <%#符合 (1)partial view在views/comments/_comment.html.erb，(2)區域變數是comment ，可以簡化成以下 %>
+    <%= render @comments %>
+  <%# end %>
+</ul>
+
+
+</section>

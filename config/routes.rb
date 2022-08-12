@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # get "/", to: "welcome#home" 
-  get "/", to: "blogs#index" 
+  root "pages#home" 
   get "/about", to: "pages#about"
 
   # get "/blog", to: "blog#index"
@@ -13,7 +13,46 @@ Rails.application.routes.draw do
 
   #REST 直接用resources生出對應路徑
   resources :blogs
-  resources :articles 
+  get "/@:handler/blogs/", to: "blogs#show"
+  get "/@:handler/blogs/:id", to: "articles#show"
+  
+  resources :articles do
+    resources :comments, shallow: true, only: [:create, :destroy] 
+    # 簡短捷徑 裡面三個需要/article id =>only[ index new create ] 外面四個only[]
+   
+    # member(有 /:id/)
+    member do
+      # /articles/:id/unlock
+      patch :unlock
+      post :like
+    end
+    # patch :unlock on :member
+    
+  #collection (無 /:id/)
+    # collection do 
+    # /articles/unlock
+      # patch :unlock
+    # end
+  end
+
+  # namespace 為了做出api開頭的路徑  api/v1/articles/:id/like
+  namespace :api do
+    namespace :v1 do
+      resources :articles, only: [] do
+        member do
+          post :like
+        end
+      end
+    end
+  end
+  resource :sessions, only:[:create, :destroy]
+  resource :users, except: [:new, :destroy], path: "user" do
+    get :sign_up
+    get :sign_in
+    
+  end
+
+  get "/@:handler", to: "blogs#show"
   # 可直接更改所有路徑
   # resources :blogs, path:"helloworld" 
   

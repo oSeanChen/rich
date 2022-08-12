@@ -18,6 +18,20 @@
   display: inline;
 }
 
-.field_with_errors input[type="text"] {
+.field_with_errors textarea,
+.field_with_errors input {
   border: 3px solid red;
+}
+
+.field_with_errors label {
+  color: red;
+}
+
+.flash {
+  background-color: cadetblue;
+  color: black;
+  padding: 20px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
 }

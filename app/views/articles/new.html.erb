@@ -1,0 +1,19 @@
+<h1>新增文章</h1>
+
+<%= render "articles/form", article: @article %>
+<%#= render partial: "articles/form", locals: {article: @article} %> 
+
+<%# form for 會根據屬性的樣子去找到對應的路徑與方法 %>
+
+<%# <input type="text" name="title"> %>
+<%# <textarea name="content" id="" cols="30" rows="10"></textarea> %>
+<%# <input type="submit" value="新增"> %>
+
+<%# form_tag，用在沒有model或是table的, 通常其他用form_for %>
+<%#= form_tag "/blogs" do %>
+
+
+<%# <form action="/blogs" method="post">
+  <input type="text" name="authenticity_token">
+  <input type="submit" value="新增">
+</form> %>
